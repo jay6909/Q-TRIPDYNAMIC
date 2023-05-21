@@ -2,9 +2,12 @@
 import config from "../conf/index.js";
 
 //Implementation to extract city from query params
+
 function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
+  const params = new URLSearchParams(search)
+  return params.get('city')
 
 }
 
@@ -12,6 +15,11 @@ function getCityFromURL(search) {
 async function fetchAdventures(city) {
   // TODO: MODULE_ADVENTURES
   // 1. Fetch adventures using the Backend API and return the data
+  let res=await fetch(`${config.backendEndpoint}/adventures?city=${city}`).then((res)=>{
+    let data=res.json()
+    return data;
+   }).catch((err)=>{return null})
+  return res;
 
 }
 
@@ -19,7 +27,44 @@ async function fetchAdventures(city) {
 function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
+  adventures.forEach((data)=>{
+    let id=data.id;
+    let adventureName=data.name
+    let category=data.category
+    let costPerHead=data.costPerHead
+    let currency=data.currency
+    let duration=data.duration
+    let image=data.image
 
+    let adventureCont=document.createElement('div');
+    let linkElem=document.createElement('a')
+    let adventureCard=document.createElement('div');
+    let categoryBanner=document.createElement('div');
+    categoryBanner.innerHTML=`<h6>${category}</h6>`
+    let activityImg=document.createElement('img')
+    linkElem.href=`detail/?adventure=${id}`;
+    linkElem.id=id
+    adventureCont.className='col-12 col-lg-3 col-md-6 p-3 mb-3';
+    adventureCard.className='activity-card';
+    categoryBanner.className='category-banner';
+    activityImg.src=image
+
+    
+    adventureCard.append(activityImg,categoryBanner)
+    linkElem.append(adventureCard)
+    adventureCont.append(linkElem)
+    document.getElementById("data").append(adventureCont)
+// `<div class="col-12 col-lg-3 col-md-6 p-3 mb-3">
+// <a href="resort/index.html">
+//   <div class="adventure-card">
+//     <img src="../../assets/adventures/resort.jpg" alt="find your adventures in best resorts">
+    
+//     <div class="adventure-card-text d-block d-lg-flex"><h5>Resort</h5>
+//       <p>₹ 1200</p></div>
+//    </div>
+// </a>`
+    console.log(data)
+  })
 }
 
 //Implementation of filtering by duration which takes in a list of adventures, the lower bound and upper bound of duration and returns a filtered list of adventures.
@@ -33,7 +78,6 @@ function filterByDuration(list, low, high) {
 function filterByCategory(list, categoryList) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on their Category and return filtered list
-
 }
 
 // filters object looks like this filters = { duration: "", category: [] };
