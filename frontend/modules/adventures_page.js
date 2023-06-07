@@ -37,22 +37,50 @@ function addAdventureToDOM(adventures) {
     let image=data.image
 
     let adventureCont=document.createElement('div');
-    let linkElem=document.createElement('a')
-    let adventureCard=document.createElement('div');
-    let categoryBanner=document.createElement('div');
-    categoryBanner.innerHTML=`<h6>${category}</h6>`
-    let activityImg=document.createElement('img')
-    linkElem.href=`detail/?adventure=${id}`;
-    linkElem.id=id
+    // let linkElem=document.createElement('a')
+    // let adventureCard=document.createElement('div');
+    // let categoryBanner=document.createElement('div');
+    // categoryBanner.innerHTML=`<h6>${category}</h6>`
+    // if(adventureName.length>10){
+    //   adventureName=adventureName.slice(0,10)
+    // }
     adventureCont.className='col-12 col-lg-3 col-md-6 p-3 mb-3';
-    adventureCard.className='activity-card';
-    categoryBanner.className='category-banner';
-    activityImg.src=image
+    adventureCont.innerHTML=`
+      <a href="detail/?adventure=${id}" id="${id}">
+        <div class="activity-card">
+          <img src="${image}">
+          <div class="category-banner">
+            <h6>Cycling</h6>
+          </div>
+          <div class="activity-info">
+            <div style=" 
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          "><h6 style="width:50%;">${adventureName}</h6>
+            <h6>₹${costPerHead}</h6></div>
+            <div style="  
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            "><h6>Duration</h6>
+            <h6>${duration} Hours</h6></div>
+          
+          </div>
+        </div>
+      </a>`
+    // let activityImg=document.createElement('img')
+    // linkElem.href=`detail/?adventure=${id}`;
+    // linkElem.id=id
+    adventureCont.className='col-12 col-lg-3 col-md-6 p-3 mb-3';
+    // adventureCard.className='activity-card';
+    // categoryBanner.className='category-banner';
+    // activityImg.src=image
 
     
-    adventureCard.append(activityImg,categoryBanner)
-    linkElem.append(adventureCard)
-    adventureCont.append(linkElem)
+    // adventureCard.append(activityImg,categoryBanner)
+    // linkElem.append(adventureCard)
+    // adventureCont.append(linkElem)
     document.getElementById("data").append(adventureCont)
 // `<div class="col-12 col-lg-3 col-md-6 p-3 mb-3">
 // <a href="resort/index.html">

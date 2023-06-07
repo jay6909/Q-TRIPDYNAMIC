@@ -109,6 +109,7 @@ footer {
 /* activity page css */
 
 .activity-card {
+  object-fit: contain;
   color: #000;
   position: relative;
   height: 350px;
@@ -124,6 +125,7 @@ footer {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  
 }
 .activity-card img {
   width: 100%;
@@ -145,7 +147,15 @@ footer {
   padding: 16px;
   /* margin: 8px; */
 }
+.activity-info{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  gap: 10px;
 
+}
 .activity-card-image {
   height: 500px;
   width: 100%;
