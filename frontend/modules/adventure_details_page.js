@@ -20,7 +20,7 @@ async function fetchAdventureDetails(adventureId) {
   //           console.log(data);
   //       }).catch(err => console.error(err));
   let res=await fetch(`${config.backendEndpoint}/adventures/detail?adventure=${adventureId}`);
-  let data=await res.json;
+  let data= res.json();
   if(res.status!==200) return null;
   else{
     return data
@@ -44,7 +44,6 @@ async function fetchAdventureDetails(adventureId) {
 function addAdventureDetailsToDOM(adventure) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the details of the adventure to the HTML DOM
-  if(!adventure.name) return null;
   const adventureName = adventure.name;
   const images = adventure.images;
   document.getElementById("adventure-name").textContent = adventureName;
