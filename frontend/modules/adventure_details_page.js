@@ -13,31 +13,18 @@ function getAdventureIdFromURL(search) {
 async function fetchAdventureDetails(adventureId) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Fetch the details of the adventure by making an API call
-  // fetch(`${config.backendEndpoint}/adventures/detail?adventure=${adventureId}`)
-  //       .then(res => res.json())
-  //       .then((data) => {
+  try {
+    let res = await fetch(
+      `${config.backendEndpoint}/adventures/detail?adventure=${adventureId}`
+    )
+      .then((data) => data.json())
+      // .then((data) => arr.push(data))
 
-  //           console.log(data);
-  //       }).catch(err => console.error(err));
-  let res=await fetch(`${config.backendEndpoint}/adventures/detail?adventure=${adventureId}`);
-  let data= res.json();
-  if(res.status!==200) return null;
-  else{
-    return data
+      .catch((err) => console.log(err));
+    return res;
+  } catch (error) {
+    return null;
   }
-  // if(data.status==200){
-    return data;
-  // }
-  return null;
-  // let res = await fetch(`${config.backendEndpoint}/adventures/detail?adventure=${adventureId}`).then((res)=>{
-  //   let data=res.json();
-  //   return data;
-  // }).catch((err)=>{
-  //   return null
-  // })
-  // console.log(res)
-  // Place holder for functionality to work in the Stubs
-  return res;
 }
 
 //Implementation of DOM manipulation to add adventure details to DOM
@@ -55,6 +42,7 @@ function addAdventureDetailsToDOM(adventure) {
     img.className = "activity-card-image";
     document.getElementById("photo-gallery").appendChild(img);
   });
+  // addBootstrapPhotoGallery(images)
   document.getElementById("adventure-content").textContent = adventure.content;
 }
 
@@ -62,6 +50,89 @@ function addAdventureDetailsToDOM(adventure) {
 function addBootstrapPhotoGallery(images) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the bootstrap carousel to show the Adventure images
+  //photo-gallery
+  const imgarray=images
+  console.log(imgarray)
+  let photoGallery=document.getElementById('photo-gallery');
+  photoGallery.innerHTML=""
+  // console.log(imgarray[1])
+
+  let carouselInner=document.createElement("div");
+  // console.log(imgarray[2])
+
+
+  photoGallery.className="carousel slide";
+  photoGallery.setAttribute('data-bs-ride',"carousel")
+  carouselInner.className="carousel-inner";
+  for(let i=0;i<images.length;i++){
+    let cItem=document.createElement('div');
+    if(i==0) cItem.className="carousel-item active";
+    else{ 
+      cItem.className="carousel-item"
+    }
+    
+    cItem.innerHTML=` <img
+    src="${imgarray[i]}"
+    class="activity-card-image"
+    alt="..."
+  />`
+  carouselInner.appendChild(cItem);
+  }
+  let prevButton=document.createElement('button')
+  let nextButton=document.createElement('button')
+  prevButton.className="carousel-control-prev"
+  prevButton.type="button"
+  prevButton.setAttribute('data-bs-target','#photo-gallery')
+  prevButton.setAttribute('data-bs-slide','prev');
+  prevButton.innerHTML=`<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  <span class="visually-hidden">Previous</span>`
+
+  nextButton.className="carousel-control-next"
+  nextButton.type="button"
+  nextButton.setAttribute('data-bs-target','#photo-gallery')
+  nextButton.setAttribute('data-bs-slide','next');
+  nextButton.innerHTML=`<span class="carousel-control-next-icon" aria-hidden="true"></span>
+  <span class="visually-hidden">Next</span>`
+  photoGallery.append(carouselInner,prevButton,nextButton)
+
+//   images.forEach((img)=>{let cItem=document.createElement('div');
+// cItem.class})
+
+//   ` <div
+//   id="carouselExampleControls"
+//   class="carousel slide"
+//   data-bs-ride="carousel"
+// >
+//   <div class="carousel-inner">
+//     <div class="carousel-item active">
+//       <img
+//         src="https://img.freepik.com/free-photo/beautiful-view-greenery-bridge-forest-perfect-background_181624-17827.jpg?w=2000"
+//         class="d-block w-100"
+//         alt="..."
+//       />
+//     </div>
+   
+    
+//   </div>
+//   <button
+//     class="carousel-control-prev"
+//     type="button"
+//     data-bs-target="#carouselExampleControls"
+//     data-bs-slide="prev"
+//   >
+//     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+//     <span class="visually-hidden">Previous</span>
+//   </button>
+//   <button
+//     class="carousel-control-next"
+//     type="button"
+//     data-bs-target="#carouselExampleControls"
+//     data-bs-slide="next"
+//   >
+//     <span class="carousel-control-next-icon" aria-hidden="true"></span>
+//     <span class="visually-hidden">Next</span>
+//   </button>
+// </div>`
 }
 
 //Implementation of conditional rendering of DOM based on availability
