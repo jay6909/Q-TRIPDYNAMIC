@@ -14,7 +14,7 @@ async function fetchAdventureDetails(adventureId) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Fetch the details of the adventure by making an API call
   try {
-    let res = await fetch(
+    const res = await fetch(
       `${config.backendEndpoint}/adventures/detail?adventure=${adventureId}`
     )
       .then((data) => data.json())
@@ -33,17 +33,18 @@ function addAdventureDetailsToDOM(adventure) {
   // 1. Add the details of the adventure to the HTML DOM
   const adventureName = adventure.name;
   const images = adventure.images;
+  const content=adventure.content
+  const subtitle=adventure.subtitle;
   document.getElementById("adventure-name").textContent = adventureName;
-  document.getElementById("adventure-subtitle").textContent =
-    adventure.subtitle;
+  document.getElementById("adventure-subtitle").textContent = subtitle;
   images.forEach((image) => {
-    let img = document.createElement("img");
+    const img = document.createElement("img");
     img.src = image;
     img.className = "activity-card-image";
     document.getElementById("photo-gallery").appendChild(img);
   });
   // addBootstrapPhotoGallery(images)
-  document.getElementById("adventure-content").textContent = adventure.content;
+  document.getElementById("adventure-content").textContent = content;
 }
 
 //Implementation of bootstrap gallery component
@@ -51,100 +52,79 @@ function addBootstrapPhotoGallery(images) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the bootstrap carousel to show the Adventure images
   //photo-gallery
-  const imgarray=images
-  console.log(imgarray)
-  let photoGallery=document.getElementById('photo-gallery');
+  const photoGallery=document.getElementById('photo-gallery');
   photoGallery.innerHTML=""
   // console.log(imgarray[1])
 
-  let carouselInner=document.createElement("div");
+  const carouselInner=document.createElement("div");
   // console.log(imgarray[2])
-
+  photoGallery.setAttribute('data-bs-ride',"carousel")
 
   photoGallery.className="carousel slide";
-  photoGallery.setAttribute('data-bs-ride',"carousel")
   carouselInner.className="carousel-inner";
+
   for(let i=0;i<images.length;i++){
-    let cItem=document.createElement('div');
+    const cItem=document.createElement('div');
     if(i==0) cItem.className="carousel-item active";
     else{ 
       cItem.className="carousel-item"
     }
     
     cItem.innerHTML=` <img
-    src="${imgarray[i]}"
+    src="${images[i]}"
     class="activity-card-image"
     alt="..."
   />`
   carouselInner.appendChild(cItem);
   }
-  let prevButton=document.createElement('button')
-  let nextButton=document.createElement('button')
-  prevButton.className="carousel-control-prev"
-  prevButton.type="button"
+
+  const prevButton=document.createElement('button')
+  const nextButton=document.createElement('button')
+
   prevButton.setAttribute('data-bs-target','#photo-gallery')
   prevButton.setAttribute('data-bs-slide','prev');
-  prevButton.innerHTML=`<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-  <span class="visually-hidden">Previous</span>`
 
-  nextButton.className="carousel-control-next"
-  nextButton.type="button"
   nextButton.setAttribute('data-bs-target','#photo-gallery')
   nextButton.setAttribute('data-bs-slide','next');
+
+  prevButton.className="carousel-control-prev"
+  nextButton.className="carousel-control-next"
+
+  prevButton.type="button"
+  nextButton.type="button"
+
+  prevButton.innerHTML=`<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  <span class="visually-hidden">Previous</span>`
+  
   nextButton.innerHTML=`<span class="carousel-control-next-icon" aria-hidden="true"></span>
   <span class="visually-hidden">Next</span>`
+
   photoGallery.append(carouselInner,prevButton,nextButton)
 
-//   images.forEach((img)=>{let cItem=document.createElement('div');
-// cItem.class})
 
-//   ` <div
-//   id="carouselExampleControls"
-//   class="carousel slide"
-//   data-bs-ride="carousel"
-// >
-//   <div class="carousel-inner">
-//     <div class="carousel-item active">
-//       <img
-//         src="https://img.freepik.com/free-photo/beautiful-view-greenery-bridge-forest-perfect-background_181624-17827.jpg?w=2000"
-//         class="d-block w-100"
-//         alt="..."
-//       />
-//     </div>
-   
-    
-//   </div>
-//   <button
-//     class="carousel-control-prev"
-//     type="button"
-//     data-bs-target="#carouselExampleControls"
-//     data-bs-slide="prev"
-//   >
-//     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-//     <span class="visually-hidden">Previous</span>
-//   </button>
-//   <button
-//     class="carousel-control-next"
-//     type="button"
-//     data-bs-target="#carouselExampleControls"
-//     data-bs-slide="next"
-//   >
-//     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-//     <span class="visually-hidden">Next</span>
-//   </button>
-// </div>`
 }
 
 //Implementation of conditional rendering of DOM based on availability
 function conditionalRenderingOfReservationPanel(adventure) {
   // TODO: MODULE_RESERVATIONS
   // 1. If the adventure is already reserved, display the sold-out message.
+  document.getElementById('reservation-panel-sold-out').style.display="none";
+  if(!adventure.available)   document.getElementById('reservation-panel-sold-out').style.display="block";
+
 }
 
 //Implementation of reservation cost calculation based on persons
 function calculateReservationCostAndUpdateDOM(adventure, persons) {
   // TODO: MODULE_RESERVATIONS
   // 1. Calculate the cost based on number of persons and update the reservation-cost field
+  const perHeadCost=adventure.costPerHead;
+
+  const price=perHeadCost*persons;
+
+  document.getElementById('reservation-person-cost').textContent=perHeadCost
+
+  document.getElementById('reservation-cost').textContent=price
+  
 }
 
 //Implementation of reservation form submission
