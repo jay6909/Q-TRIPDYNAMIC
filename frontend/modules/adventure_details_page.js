@@ -57,16 +57,30 @@ function addBootstrapPhotoGallery(images) {
   // console.log(imgarray[1])
 
   const carouselInner=document.createElement("div");
+  const carouselIndicator=document.createElement("div");
+
+  carouselIndicator.className='carousel-indicators';
   // console.log(imgarray[2])
   photoGallery.setAttribute('data-bs-ride',"carousel")
+
 
   photoGallery.className="carousel slide";
   carouselInner.className="carousel-inner";
 
   for(let i=0;i<images.length;i++){
     const cItem=document.createElement('div');
-    if(i==0) cItem.className="carousel-item active";
-    else{ 
+    const slideButton=document.createElement('button')
+    slideButton.setAttribute("data-bs-target","#photo-gallery");
+    slideButton.setAttribute("data-bs-slide-to",`${i}`);
+
+    if(i==0) {
+      slideButton.setAttribute("class","active");
+      slideButton.setAttribute("aria-current","true");
+      slideButton.setAttribute("aria-label",`Slide ${i+1}`);
+      cItem.className="carousel-item active";
+    }
+  else{ 
+      slideButton.setAttribute("aria-label",`Slide ${i+1}`);
       cItem.className="carousel-item"
     }
     
@@ -76,6 +90,7 @@ function addBootstrapPhotoGallery(images) {
     alt="..."
   />`
   carouselInner.appendChild(cItem);
+  carouselIndicator.appendChild(slideButton);
   }
 
   const prevButton=document.createElement('button')
@@ -99,7 +114,12 @@ function addBootstrapPhotoGallery(images) {
   nextButton.innerHTML=`<span class="carousel-control-next-icon" aria-hidden="true"></span>
   <span class="visually-hidden">Next</span>`
 
-  photoGallery.append(carouselInner,prevButton,nextButton)
+  
+  // .innerHTML=`<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+  // <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+  // <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>`
+
+  photoGallery.append(carouselIndicator,carouselInner,prevButton,nextButton)
 
 
 }
