@@ -41,14 +41,10 @@ function addReservationToTable(reservations) {
 
     
     reservations.forEach((data)=>{
-      // let row=`<a hre>`
       let row=document.createElement('tr')
-      // console.log(data)
       
       let link=`${location.origin}/frontend/pages/adventures/detail/?adventure=${data.adventure}`
-      // let linkA=document.createElement('a')
-      // a.href=`${location.origin}/frontend/pages/adventures/detail/?adventure=${data.adventure}`;
-      // row.appendChild(lin)
+   
       let dateArr=data.date.split("-")
       let timeStamp= Date.parse(data.time)
       let dateVal = new Date(timeStamp);
@@ -56,9 +52,7 @@ function addReservationToTable(reservations) {
 
       let bookingTimeString=dateVal.toLocaleTimeString().toLowerCase()
       let bookingDate=dateVal.toLocaleDateString('en-IN',options)
-      // console.log()
-      // console.log(dtString.toLocaleString("en-IN"))
-      // let bdate=dtString.toLocaleString("en-IN")
+ 
       row.innerHTML=`
       <td><a href="${link}">${data.id}</a></td>
       <td>${data.name}</td>
@@ -68,31 +62,7 @@ function addReservationToTable(reservations) {
       <td>${data.price}</td>
       <td>${bookingDate}, ${bookingTimeString}</td>
       <td id="${data.id}"><a href="${link}"><button class="reservation-visit-button" > Visit Adventure</button></a></td>`
-      // <a href="${location.origin}/frontend/pages/adventures/detail/?adventure=${data.adventure}">
-      // row.href=`${location.origin}/frontend/pages/adventures/detail/?adventure=${data.adventure}`
-      // row.innerHTML=`<a href="${location.origin}/frontend/pages/adventures/detail/?adventure=${data.adventure}"</a>`
-      // let transID=row.insertCell()
-      // let bookingName=row.insertCell()
-      // let adventure=row.insertCell()
-      // let persons=row.insertCell()
-      // let dateCell=row.insertCell()
-      // let price=row.insertCell()
-
-      // let bookingTime=row.insertCell()
-      // let action=row.insertCell()
-
-      // let date=new Date()
-      // let dateLocalString=date.toLocaleDateString("en-IN");
-      
-      // transID.innerHTML=data.id;
-      // bookingName.innerHTML=data.name
-      // adventure.innerHTML=data.adventureName
-      // persons.innerHTML=data.person
-      // dateCell.innerHTML=dateLocalString
-      // price.innerHTML=data.price
-      // bookingTime.innerHTML=data.time
-      // action.innerHTML=`<button class="reservation-visit-button" > Visit Adventure</button>`
-
+    
       tBody.appendChild(row)
     })
   }
